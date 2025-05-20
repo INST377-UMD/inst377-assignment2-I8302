@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Assignment 2</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>Dog Page</h1>
+        </header>
+
+        <nav id = "navigation">
+            <ul>
+                <li><a href = "home.html">Home</a></li>
+                <li><a href = "stocks.html">Stocks</a></li>
+                <li><a href = "dogs.html">Dogs</a></li>
+            </ul>
+        </nav>
+
+        <div class="carousel" id="dogCarousel"></div>
+        <div id="dogButtons"></div>
+        <div id="dogInfo" style="display:none;">
+            <h3 id="typeName"></h3>
+            <p id="dogDescription"></p>
+            <p>Life Expectancy: <span id="minLife"></span> - <span id="maxLife"></span> years</p>
+        </div>
+
+
+        <div class="instructions">
+            <h2>In this web page there are options to Navigate using Audio!</h2>
+            <h3>Ensure your Mic is enabled to be able to use this feature</h3>
+            <ul>
+                <li>Navigate to a different page</li>
+                    <ul>
+                        <li>Say: Navigate to "page"</li>
+                    </ul>
+                <li>Change the page color</li>
+                    <ul>
+                        <li>Say: change the color to "color"</li>
+                    </ul>
+                <li>Say hello back to you</li>
+                    <ul>
+                        <li>Say: Hello!!</li>
+                    </ul>
+            </ul>
+            <button onclick="startListen()">Turn on Listening</button>
+            <button onclick="stopListen()">Turn off Listening</button>
+        </div>
+
+        <script src="javascript.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+             
+    </body>
+</html>
