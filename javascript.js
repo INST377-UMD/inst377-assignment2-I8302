@@ -1,21 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-    getQuote();
+    fetchQuote();
     dogStat();
     reddit();
     startListen();
 });
 
-async function getQuote() {
+async function fetchQuote() {
     try {
-        const res = await fetch('https://zenquotes.io/api/quotes');
-        const data = await res.json();
-        const { q: quote, a: author } = data[0];
-        document.getElementById('quote').innerText = `"${quote}" - ${author}`;
+        const response = await fetch("https://zenquotes.io/api/quotes");
+        const data = await response.json();
+        const quote = data[0].q;
+        const author = data[0].a;
+
+        document.getElementById('text').innerText = `"${quote}"`;
+        document.getElementById('name').innerText = `– ${author}`;
     } catch (error) {
-        console.error("Error fetching quote:", error);
-        document.getElementById('quote').innerText = "Could not fetch quote. Please try again later.";
+        console.error("Failed to load quote:", error);
+        document.getElementById('text').innerText = "Could not load quote. Try again later.";
+        document.getElementById('name').innerText = "";
     }
 }
+
 
 async function dogStat() {
     await dogImage();
@@ -23,7 +28,7 @@ async function dogStat() {
 }
 
 async function dogImage() {
-    try {
+
         const res = await fetch("https://dog.ceo/api/breeds/image/random/10");
         const { message: images } = await res.json();
         const carousel = document.getElementById("dogCarousel");
@@ -34,43 +39,50 @@ async function dogImage() {
         });
 
         simpleslider.getSlider({ container: carousel, show: 1 });
-    } catch (error) {
-        console.error("Error fetching dog images:", error);
-    }
+   
 }
 
-async function dogTypes() {
-    try {
-        const res = await fetch("https://dog.ceo/api/breeds/list/all");
-        const { message } = await res.json();
-        const dogButtons = document.getElementById("dogButtons");
 
-        Object.keys(message).forEach(type => {
-            const btn = document.createElement("button");
-            btn.textContent = type;
-            btn.addEventListener("click", () => dogStats(type));
-            dogButtons.appendChild(btn);
+
+let breedInfoMap = {};  // Store breed data for later lookup
+
+function dogTypes() {
+    fetch("https://dogapi.dog/api/v2/breeds")
+        .then(res => res.json())
+        .then(data => {
+            const breeds = data.data;
+            const dogButtons = document.getElementById("dogButtons");
+
+            breeds.forEach(breed => {
+                const name = breed.attributes.name;
+                breedInfoMap[name.toLowerCase()] = breed.attributes;
+
+                const btn = document.createElement("button");
+                btn.textContent = name;
+                btn.setAttribute("class", "custom-dog-button");
+                btn.addEventListener("click", () => showDogInfo(name.toLowerCase()));
+                dogButtons.appendChild(btn);
+            });
+        })
+        .catch(error => {
+            console.error("Error loading dog breeds:", error);
         });
-    } catch (error) {
-        console.error("Error fetching dog breeds:", error);
-    }
 }
 
-function dogStats(type) {
-    const dogInfo = {
-        name: type,
-        description: `Description for ${type}`,
-        minLife: 10,
-        maxLife: 14
-    };
-    document.getElementById("typeName").textContent = dogInfo.name;
-    document.getElementById("dogDescription").textContent = dogInfo.description;
-    document.getElementById("minLife").textContent = dogInfo.minLife;
-    document.getElementById("maxLife").textContent = dogInfo.maxLife;
+function showDogInfo(breedName) {
+    const info = breedInfoMap[breedName];
+    if (!info) return;
+
+    document.getElementById("typeName").textContent = info.name;
+    document.getElementById("dogDescription").textContent = info.description || "No description available.";
+    document.getElementById("minLife").textContent = info.life?.min || "N/A";
+    document.getElementById("maxLife").textContent = info.life?.max || "N/A";
     document.getElementById("dogInfo").style.display = "block";
-    const audio = new Audio(`https://api.voicerss.org/?key=your-api-key&hl=en-us&src=Load%20Dog%20Breed%20${dogInfo.name}`);
-    audio.play();
 }
+
+
+
+
 // Stocks
 let chartInstance; 
 function getStocks() {
@@ -177,31 +189,41 @@ async function reddit() {
 
 if (annyang) {
     const commands = {
-        'hello': () => alert('Hello world!'),
+        'hello': () => {
+            alert('Hello world!');
+        },
         'change the color to :color': color => {
             document.body.style.backgroundColor = color;
         },
+
         'navigate to :page': page => {
-            const p = page.toLowerCase();
-            if (p === 'home') window.location = 'home.html';
-            else if (p === 'stocks') window.location = 'stocks.html';
-            else if (p === 'dogs') window.location = 'dogs.html';
-            else alert("Page not found.");
+            const p = page.toLowerCase().trim();
+            if (p === 'home') {
+                window.location.href = 'home.html';
+            } else if (p === 'stocks') {
+                window.location = 'stocks.html';
+            } else if (p === 'dogs') {
+                window.location = 'dogs.html';  
+            } else {
+                alert("Page not found."); 
+            }
         },
+
         'lookup :stock': stock => {
             document.getElementById('chart').value = stock.toUpperCase();
             getStocks();
         },
+        'lookup *stock': (stock) => {
+        document.getElementById("stockInput").value = stock.trim().toUpperCase();
+        lookupStock(stock.trim().toUpperCase());
+    },
         'load dog breed :breed': breed => {
             loadDogInfo(breed.toLowerCase());
         }
-
     };
-
     annyang.addCommands(commands);
     annyang.start();
 }
-
 
 // Start listening when the page loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -210,8 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-// Start/Stop voice
 function startListen() {
     if (annyang) annyang.start();
 }
