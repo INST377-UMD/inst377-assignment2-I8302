@@ -5,6 +5,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+        <script src="javascript.js"></script>
     </head>
 
     <body>
@@ -22,8 +23,8 @@
 
         <h1>Let's chart some stocks!</h1>
         <div id="stockInfo">
-            <label for="chart">Stock Ticker:</label>
-            <input type="text" id="chart" maxLength="5" required>
+            <label for="inputName">Stock Ticker:</label>
+            <input type="text" id="inputName" maxLength="5" required>
             <label for="days">Select Days:</label>
             <select id="days">
                 <option value="30">30 days</option>
@@ -62,7 +63,7 @@
                     </ul>
                 <li>Say Hello back to you</li>
                     <ul>
-                        <li>Say: "Hello"!!</li>
+                        <li>Say: "Hello"!</li>
                     </ul>
                 <li>Lookup a Stock</li>
                     <ul>
@@ -72,7 +73,5 @@
             <button onclick="startListen()">Turn on Listening</button>
             <button onclick="stopListen()">Turn off Listening</button>
         </div>
-        <script src="javascript.js"></script>
     </body>
-
 </html>

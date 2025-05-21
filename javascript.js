@@ -1,10 +1,14 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    await dogStat();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchQuote();
-    dogStat();
     reddit();
     startListen();
 });
 
+// Get Quote
 async function fetchQuote() {
     try {
         const response = await fetch("https://zenquotes.io/api/quotes");
@@ -21,14 +25,13 @@ async function fetchQuote() {
     }
 }
 
-
 async function dogStat() {
     await dogImage();
     await dogTypes();
 }
 
+// Dog Images
 async function dogImage() {
-
         const res = await fetch("https://dog.ceo/api/breeds/image/random/10");
         const { message: images } = await res.json();
         const carousel = document.getElementById("dogCarousel");
@@ -38,14 +41,12 @@ async function dogImage() {
             carousel.appendChild(img);
         });
 
-        simpleslider.getSlider({ container: carousel, show: 1 });
-   
+        simpleslider.getSlider({container: carousel, show: 1});
+ 
 }
 
-
-
-let breedInfoMap = {};  // Store breed data for later lookup
-
+// Dog Breed Information and Buttons
+let breedInfoMap = {};
 function dogTypes() {
     fetch("https://dogapi.dog/api/v2/breeds")
         .then(res => res.json())
@@ -59,7 +60,7 @@ function dogTypes() {
 
                 const btn = document.createElement("button");
                 btn.textContent = name;
-                btn.setAttribute("class", "custom-dog-button");
+                btn.setAttribute("class", "button-5");
                 btn.addEventListener("click", () => showDogInfo(name.toLowerCase()));
                 dogButtons.appendChild(btn);
             });
@@ -72,20 +73,18 @@ function dogTypes() {
 function showDogInfo(breedName) {
     const info = breedInfoMap[breedName];
     if (!info) return;
-    document.getElementById("typeName").textContent = info.name;
-    document.getElementById("dogDescription").textContent = info.description || "No description available!";
-    document.getElementById("minLife").textContent = info.life?.min || "N/A";
-    document.getElementById("maxLife").textContent = info.life?.max || "N/A";
+    document.getElementById("typeName").textContent = `Name: ${info.name}`;
+    document.getElementById("dogDescription").textContent = `Description: ${info.description || "No description!"}`;
+    document.getElementById("minLife").textContent = `Min Life: ${info.life?.min || "None!"}`;
+    document.getElementById("maxLife").textContent = `Max Life: ${info.life?.max || "None!"}`;
     document.getElementById("dogInfo").style.display = "block";
 }
-
-
 
 
 // Stocks
 let chartInstance; 
 function getStocks() {
-    const ticker = document.getElementById('chart').value.toUpperCase();
+    const ticker = document.getElementById('inputName').value.toUpperCase();
     const days = parseInt(document.getElementById('days').value);
     const apiKey = '8Y9UMiWQip4CnpgwA5pgI2DQH3owajNz';
 
@@ -97,7 +96,6 @@ function getStocks() {
 
     const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${start}/${end}?adjusted=true&sort=asc&apiKey=${apiKey}`;
 
-
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -105,7 +103,6 @@ function getStocks() {
                 const dates = data.results.map(item => new Date(item.t).toLocaleDateString());
                 const prices = data.results.map(item => item.c);
                 const ctx = document.getElementById('graph').getContext('2d');
-
 
                 if (chartInstance) {
                     chartInstance.destroy();
@@ -146,6 +143,7 @@ function getStocks() {
         });
 }
 
+// Reddit
 async function reddit() {
     try {
         const res = await fetch(`https://tradestie.com/api/v1/apps/reddit?date=2022-04-03`);
@@ -155,7 +153,6 @@ async function reddit() {
 
         data.slice(0, 5).forEach(stock => {
             const row = document.createElement('tr');
-
             const tickerCell = document.createElement('td');
             const link = document.createElement('a');
             link.href = `https://finance.yahoo.com/quote/${stock.ticker}`;
@@ -176,7 +173,6 @@ async function reddit() {
             } else if (stock.sentiment.toLowerCase() === "bearish") {
                 img.src = "https://cdn-icons-png.freepik.com/256/2207/2207344.png";
             }
-
             sentimentCell.appendChild(img);
             row.append(tickerCell, commentCell, sentimentCell);
             stockTable.appendChild(row);
@@ -186,46 +182,55 @@ async function reddit() {
     }
 }
 
-
 if (annyang) {
-    const commands = {
-        'hello': () => alert('Hello world!'),
+    var commands = {
 
-        'change to *color': (color) => {
-            const colorCheck = color.trim().toLowerCase();
-            document.body.style.backgroundColor = colorCheck;
-        },
+    'Hello.': () => {
+        alert('Hello world!');
+    },
 
-        'navigate to *page': (page) => {
-            if (page.toLowerCase().includes("home")) 
-                window.location.href = "home.html";
-            else if (page.toLowerCase().includes("stock")) 
-                window.location.href = "stocks.html";
-            else if (page.toLowerCase().includes("dog")) 
-                window.location.href = "dogs.html";
-        },
+    'change the color to *color': (color) => {
+        const colorCheck = color.trim().toLowerCase().replace(/[^\w\s]/g, '');
+        document.body.style.backgroundColor = colorCheck;
+    },
 
-        'lookup *stock': (stock) => {
-            const ticker = stock.trim().toUpperCase();
-            document.getElementById("chart").value = ticker;
-            document.getElementById("days").value = "30"; 
-            getStocks();
-        },
+    'navigate to *page': (page) => {
+        if (page.toLowerCase().includes("home")) 
+            window.location.href = "home.html";
+        else if (page.toLowerCase().includes("stock")) 
+            window.location.href = "stocks.html";
+        else if (page.toLowerCase().includes("dog")) 
+            window.location.href = "dogs.html";
+    },
 
-        'load dog breed *breed': (breed) => 
-            loadDogInfo(breed.toLowerCase())
+    // For lookup
+    'lookup *stock': (stock) => {
+        const ticker = stock.trim().toUpperCase().replace(/[^A-Z]/g, '');
+        document.getElementById("inputName").value = ticker;
+        document.getElementById("days").value = "30"; 
+        getStocks();
+    },
+
+    //For look up
+    'look up *stock': (stock) => {
+        const ticker = stock.trim().toUpperCase().replace(/[^A-Z]/g, '');
+        document.getElementById("inputName").value = ticker;
+        document.getElementById("days").value = "30";
+        getStocks();
+    },
+
+    'load dog breed *breed': (breed) => {
+        const dogLook = breed.trim().toLowerCase().replace(/[^\w\s]/g, '');
+            showDogInfo(dogLook);
+    }
     };
-
     annyang.addCommands(commands);
     annyang.start();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-        annyang.start();
-});
-
 function startListen() {
     if (annyang) annyang.start();
+    
 }
 
 function stopListen() {
