@@ -1,3 +1,7 @@
+body {
+    background-color:lightcyan ;
+}
+
 /*Navigation Bar*/
 #navigation {
         background-color: red;
@@ -15,9 +19,28 @@
     background-color: aquamarine;
 }
 
+/*Fancy Button Spacing*/
 #buttons {
     padding: 10px;
     position: center;
+}
+#buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#buttons .button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+#textbox {
+    width: 60%;                    
+    margin: 20px auto;             
+    border: 2px solid #333;     
+    padding: 20px;                
+    text-align: center;           
+    background-color: #fff2c0;    
 }
 
 /* Fancy Buttons */
@@ -26,7 +49,7 @@ width: 150px;
 height: 76px;
 line-height: 78px;
 font-size: 20px;
-font-family: 'Bebas Neue', sans-serif;
+font-family:sans-serif;
 background: linear-gradient(45deg, transparent 5%, #FF013C 5%);
 border: 0;
 color: #fff;
@@ -119,40 +142,33 @@ animation-timing-function: steps(2, end);
 }
 }
 
-
-/*Audio Box */
+/*Instruction Box */
 .instructions {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
+  background-color: #37a83b;
+  color: white;
   padding: 20px;
-  margin-top: 40px;
+  margin: 40px auto;
+  width: 55%;
   font-family: sans-serif;
   position: relative;
-  border: none; /* No border */
-}
-
-.instructions h3 {
-  margin-top: 0;
-}
-
-.instructions ul {
-  padding-left: 20px;
+  border: black 10px;
 }
 
 .instructions button {
   margin-right: 10px;
   padding: 10px 15px;
   border: none;
-  background-color: #45a049; 
-  color: white;
+  background-color: #2debeb; 
+  color: rgb(5, 10, 38);
   border-radius: 5px;
   cursor: pointer;
 }
 
 .instructions button:hover {
-  background-color: #3e8e41;
+  background-color: gold;
 }
 
+/*Dog Image Carousel*/
 #dogCarousel {
     width: 100%;
     height: 300px;
@@ -161,19 +177,54 @@ animation-timing-function: steps(2, end);
 }
 
 #dogCarousel img {
-
     width: 100%;
-
     object-fit: cover;
-    
-    width: 300px;     /* Adjust width as needed */
-    height: auto;     /* Keep aspect ratio */
-    margin: 10px;     /* Optional spacing */
-    border-radius: 10px; /* Optional styling */
+    width: 300px;   
+    height: auto;
+    margin: 10px;  
+    border-radius: 10px;
 }
 
+/*Dog Info Buttons*/
+.custom-dog-button {
+    background-color: #f8c471;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-/* Reddit Image */
+.custom-dog-button:hover {
+    background-color: #f5b041;
+}
+
+/* Reddit */
+#reddit {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#reddit th, #reddit td {
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 18px;
+}
+
+#reddit tr:hover {
+    background-color: #aaaaaa;
+}
+
+#redditStocks {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
 #reddit img {
     width: 60px; 
     height: 60px;
@@ -195,38 +246,12 @@ animation-timing-function: steps(2, end);
     box-shadow: 0 0 15px red;
 }
 
-/* Table */
-#reddit {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-#reddit th, #reddit td {
-    padding: 15px;
-    text-align: center;
-    border: 1px solid #ddd;
-    font-size: 18px;
-}
-
-#reddit th {
-    background-color: #f2f2f2;
-}
-
-#reddit tr:hover {
-    background-color: #f9f9f9;
-}
-
-#redditStocks {
-    overflow-x: auto;
-    max-width: 100%;
-}
-
+/*Stocks Button*/
 .button-33 {
   background-color: #c2fbd7;
   border-radius: 100px;
   box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: green;
+  color: rgb(40, 147, 13);
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;

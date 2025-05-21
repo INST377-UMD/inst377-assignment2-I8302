@@ -72,9 +72,8 @@ function dogTypes() {
 function showDogInfo(breedName) {
     const info = breedInfoMap[breedName];
     if (!info) return;
-
     document.getElementById("typeName").textContent = info.name;
-    document.getElementById("dogDescription").textContent = info.description || "No description available.";
+    document.getElementById("dogDescription").textContent = info.description || "No description available!";
     document.getElementById("minLife").textContent = info.life?.min || "N/A";
     document.getElementById("maxLife").textContent = info.life?.max || "N/A";
     document.getElementById("dogInfo").style.display = "block";
@@ -187,49 +186,42 @@ async function reddit() {
     }
 }
 
+
 if (annyang) {
     const commands = {
-        'hello': () => {
-            alert('Hello world!');
-        },
-        'change the color to :color': color => {
-            document.body.style.backgroundColor = color;
+        'hello': () => alert('Hello world!'),
+
+        'change to *color': (color) => {
+            const colorCheck = color.trim().toLowerCase();
+            document.body.style.backgroundColor = colorCheck;
         },
 
-        'navigate to :page': page => {
-            const p = page.toLowerCase().trim();
-            if (p === 'home') {
-                window.location.href = 'home.html';
-            } else if (p === 'stocks') {
-                window.location = 'stocks.html';
-            } else if (p === 'dogs') {
-                window.location = 'dogs.html';  
-            } else {
-                alert("Page not found."); 
-            }
+        'navigate to *page': (page) => {
+            if (page.toLowerCase().includes("home")) 
+                window.location.href = "home.html";
+            else if (page.toLowerCase().includes("stock")) 
+                window.location.href = "stocks.html";
+            else if (page.toLowerCase().includes("dog")) 
+                window.location.href = "dogs.html";
         },
 
-        'lookup :stock': stock => {
-            document.getElementById('chart').value = stock.toUpperCase();
+        'lookup *stock': (stock) => {
+            const ticker = stock.trim().toUpperCase();
+            document.getElementById("chart").value = ticker;
+            document.getElementById("days").value = "30"; 
             getStocks();
         },
-        'lookup *stock': (stock) => {
-        document.getElementById("stockInput").value = stock.trim().toUpperCase();
-        lookupStock(stock.trim().toUpperCase());
-    },
-        'load dog breed :breed': breed => {
-            loadDogInfo(breed.toLowerCase());
-        }
+
+        'load dog breed *breed': (breed) => 
+            loadDogInfo(breed.toLowerCase())
     };
+
     annyang.addCommands(commands);
     annyang.start();
 }
 
-// Start listening when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    if (annyang) {
         annyang.start();
-    }
 });
 
 function startListen() {
