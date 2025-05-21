@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Assignment 2</title>
+        <link rel="stylesheet" href="style.css">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+        <script src="javascript.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Home Page!!</h1>
+        </header>
+
+        <nav id = "navigation">
+            <ul>
+                <li><a href = "home.html">Home</a></li>
+                <li><a href = "stocks.html">Stocks</a></li>
+                <li><a href = "dogs.html">Dogs</a></li>
+            </ul>
+        </nav>
+
+        <div id="buttons">
+            <button type="button" class="button" onclick="window.location.href='stocks.html';">Stocks</button>
+            <button type="button" class="button" onclick="window.location.href='dogs.html';">Dogs</button>
+        </div>
+
+        <div id = "textbox">
+            <h3>Quote of the Page Load</h3>
+            <p id="text"></p>
+            <p id="name"></p>
+        </div>
+
+        <div class="instructions">
+            <h1>Navigate with Audio</h1>
+            <h2>In this web page there are options to Navigate using Audio!</h2>
+            <h3>Ensure your Mic is enabled to be able to use this feature</h3>
+            <ul>
+                <li>Navigate to a different page</li>
+                    <ul>
+                        <li>Say: Navigate to "page"</li>
+                    </ul>
+                <li>Change the page color</li>
+                    <ul>
+                        <li>Say: Change the color to red</li>
+                    </ul>
+                <li>Say Hello back to you</li>
+                    <ul>
+                        <li>Say: "Hello"!</li>
+                    </ul>
+            </ul>
+            <button onclick="startListen()">Turn on Listening</button>
+            <button onclick="stopListen()">Turn off Listening</button>
+        </div>
+    </body>
+</html>
+

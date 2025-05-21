@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Assignment 2</title>
+        <link rel="stylesheet" href="style.css">
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script> 
+        <script src="javascript.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Dog Page</h1>
+        </header>
+
+        <nav id = "navigation">
+            <ul>
+                <li><a href = "home.html">Home</a></li>
+                <li><a href = "stocks.html">Stocks</a></li>
+                <li><a href = "dogs.html">Dogs</a></li>
+            </ul>
+        </nav>
+
+        <div id="dogCarousel"></div>
+        <div id="dogButtons"></div>
+
+        <div id="dogInfo" style="display:none;">
+            <h3 id="typeName"></h3>
+            <p id="dogDescription"></p>
+            <p><span id="minLife"></span></p>
+            <p> <span id="maxLife"></span></p>
+        </div>
+
+
+        <div class="instructions">
+            <h1>Navigate with Audio</h1>
+            <h2>In this web page there are options to Navigate using Audio!</h2>
+            <h3>Ensure your Mic is enabled to be able to use this feature</h3>
+            <ul>
+                <li>Navigate to a different page</li>
+                    <ul>
+                        <li>Say: Navigate to "page"</li>
+                    </ul>
+                <li>Change the page color</li>
+                    <ul>
+                        <li>Say: Change the color to "color"</li>
+                    </ul>
+                <li>Say Hello back to you</li>
+                    <ul>
+                        <li>Say: "Hello"!</li>
+                    </ul>
+                <li>Get New Dog</li>
+                    <ul>
+                        <li>Load dog breed "dog breed name"</li>
+                        <li>Example: Load dog breed American Foxhound</li>
+                    </ul>
+            </ul>
+            <button onclick="startListen()">Turn on Listening</button>
+            <button onclick="stopListen()">Turn off Listening</button>
+        </div>
+    </body>
+</html>
